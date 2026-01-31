@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Resume Scoring System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>AI Resume Scoring System</h1>
+
+    <form method="POST">
+        <label>Paste Resume Text</label>
+        <textarea name="resume" required></textarea>
+
+        <label>Paste Job Description</label>
+        <textarea name="job_desc" required></textarea>
+
+        <button type="submit">Check Score</button>
+    </form>
+
+    {% if score is not none %}
+    <div class="result">
+        <h2>Matching Score: {{ score }}%</h2>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
