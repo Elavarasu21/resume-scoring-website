@@ -18,7 +18,7 @@ def index():
         resume = request.form["resume"]
         job_desc = request.form["job_desc"]
         score = calculate_score(resume, job_desc)
-    return render_template("index.html", score=score)
+    return render_template("resume.html", score=score)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
