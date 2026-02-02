@@ -1,22 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Resume Scoring System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='resume.css') }}">
 </head>
 <body>
 
+<div class="background"></div>
+
 <div class="container">
-    <h1>AI Resume Scoring System</h1>
+    <h1 class="title">AI Resume Scoring System</h1>
+    <p class="subtitle">Match your resume with job description using AI</p>
 
-    <form method="POST">
-        <label>Paste Resume Text</label>
-        <textarea name="resume" required></textarea>
+    <form method="POST" class="form-box">
+        <div class="input-group">
+            <label>Paste Resume Text</label>
+            <textarea name="resume" required></textarea>
+        </div>
 
-        <label>Paste Job Description</label>
-        <textarea name="job_desc" required></textarea>
+        <div class="input-group">
+            <label>Paste Job Description</label>
+            <textarea name="job_desc" required></textarea>
+        </div>
 
-        <button type="submit">Check Score</button>
+        <button type="submit" class="glow-button">Check Score</button>
     </form>
 
     {% if score is not none %}
