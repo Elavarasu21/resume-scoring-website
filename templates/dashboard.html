@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='resume.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="background"></div>
+
+<div class="container">
+    <h1 class="title">Analytics Dashboard</h1>
+    <p class="subtitle">Resume Screening Insights</p>
+
+    <div class="dashboard-cards">
+        <div class="card">
+            <h2>{{ total_resumes }}</h2>
+            <p>Total Resumes Analyzed</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ avg_score }}%</h2>
+            <p>Average Match Score</p>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="scoreChart"></canvas>
+    </div>
+</div>
+
+<script>
+const ctx = document.getElementById('scoreChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+            label: 'Resume Match Scores',
+            data: {{ scores|safe }},
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { labels: { color: 'white' } }
+        },
+        scales: {
+            x: { ticks: { color: 'white' } },
+            y: { ticks: { color: 'white' } }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
