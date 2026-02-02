@@ -4,3 +4,5 @@ gunicorn
 pdfplumber
 numpy
 scipy
+pandas
+matplotlib
