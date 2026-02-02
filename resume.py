@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pdfplumber
@@ -11,14 +11,14 @@ app.config['UPLOAD_FOLDER'] = "uploads"
 if not os.path.exists("uploads"):
     os.makedirs("uploads")
 
-# ---------------- SKILL DATABASE ----------------
+# ----------------SKILL DATABASE ----------------
 SKILLS = [
     "python", "machine learning", "data analysis", "sql",
     "deep learning", "aws", "statistics", "pandas",
     "numpy", "scikit-learn", "data visualization"
 ]
 
-# Store scores for dashboard demo (can be replaced by DB later)
+# Store scores for dashboard demo
 score_history = []
 
 # ---------------- PDF TEXT EXTRACTION ----------------
@@ -46,12 +46,21 @@ def skill_match(resume, job):
     missing = list(set(job_skills) - set(resume_skills))
     return matched, missing
 
+# ---------------- RESUME IMPROVEMENT ----------------
+def improve_resume(resume, job_desc):
+    missing_keywords = [s for s in SKILLS if s in job_desc and s not in resume]
+    suggestion_text = "\n\nSuggested Additions:\n"
+    for skill in missing_keywords:
+        suggestion_text += f"- Experience with {skill}\n"
+    return resume + suggestion_text
+
 # ---------------- MAIN PAGE ----------------
 @app.route("/", methods=["GET", "POST"])
 def index():
     score = None
     matched = []
     missing = []
+    improved_resume = None
 
     if request.method == "POST":
         job_desc = request.form["job_desc"].lower()
@@ -68,10 +77,16 @@ def index():
         score = calculate_score(resume_text, job_desc)
         matched, missing = skill_match(resume_text, job_desc)
 
-        # Store score for dashboard analytics
+        # NEW FEATURE: Generate improved resume
+        improved_resume = improve_resume(resume_text, job_desc)
+
         score_history.append(score)
 
-    return render_template("resume.html", score=score, matched=matched, missing=missing)
+    return render_template("resume.html",
+                           score=score,
+                           matched=matched,
+                           missing=missing,
+                           improved_resume=improved_resume)
 
 # ---------------- CHATBOT API ----------------
 @app.route("/chatbot", methods=["POST"])
@@ -81,9 +96,9 @@ def chatbot():
     if "score" in user_msg:
         reply = "Upload your resume and job description, then click Analyze Resume to get your match score."
     elif "improve" in user_msg:
-        reply = "Add more skills, project experience, and measurable achievements to improve your resume."
+        reply = "Add missing skills from the job description and include project details to improve your resume."
     elif "skills" in user_msg:
-        reply = "Make sure your resume contains relevant technical and soft skills required for the job."
+        reply = "Ensure your resume includes relevant technical and soft skills."
     else:
         reply = "I'm your AI Resume Assistant! Ask me how to improve your resume."
 
