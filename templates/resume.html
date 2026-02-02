@@ -5,10 +5,7 @@
     <title>AI Resume Analyzer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='resume.css') }}">
-
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -70,17 +67,32 @@
             <p>Add the missing skills above and include more project details and measurable achievements.</p>
         </div>
 
+        {% if improved_resume %}
+        <div class="suggestions">
+            <h3>📝 Improved Resume Version</h3>
+            <textarea readonly class="improved-box">{{ improved_resume }}</textarea>
+        </div>
+        {% endif %}
+
     </div>
     {% endif %}
 </div>
 
+<!-- 🤖 Robot Assistant Button -->
+<div class="robot-icon" onclick="toggleChat()">🤖</div>
+
 <!-- Chatbot -->
-<div class="chatbox">
-    <div class="chat-header">AI Assistant</div>
-    <div id="chatReply" class="chat-reply">Hello! Ask me how to improve your resume.</div>
+<div class="chatbox" id="chatbox">
+    <div class="chat-header">AI Resume Assistant</div>
+    <div id="chatReply" class="chat-reply">Hi! Ask me how to improve your resume.</div>
     <input type="text" id="chatInput" placeholder="Type a question...">
     <button onclick="sendMessage()">Send</button>
 </div>
+
+<!-- Footer -->
+<footer class="footer">
+    © 2026 AI Resume Analyzer | Developed by Elavarasu
+</footer>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
