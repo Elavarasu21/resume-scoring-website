@@ -1,40 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Resume Scoring System</title>
+    <title>AI Resume Analyzer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='resume.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
 
-<div class="background"></div>
-
 <div class="container">
-    <h1 class="title">AI Resume Scoring System</h1>
-    <p class="subtitle">Match your resume with job description using AI</p>
+    <h1>AI Resume Analyzer</h1>
 
-    <form method="POST" class="form-box">
-        <div class="input-group">
-            <label>Paste Resume Text</label>
-            <textarea name="resume" required></textarea>
-        </div>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Upload Resume (PDF)</label>
+        <input type="file" name="resume_file">
 
-        <div class="input-group">
-            <label>Paste Job Description</label>
-            <textarea name="job_desc" required></textarea>
-        </div>
+        <label>Or Paste Resume</label>
+        <textarea name="resume"></textarea>
 
-        <button type="submit" class="glow-button">Check Score</button>
-        <input type="file" name="resume_file" accept=".pdf">
-        <p style="text-align:center;">OR paste resume text below</p>
+        <label>Paste Job Description</label>
+        <textarea name="job_desc" required></textarea>
+
+        <button type="submit">Analyze</button>
     </form>
 
-    {% if score is not none %}
-    <div class="result">
-        <h2>Matching Score: {{ score }}%</h2>
+    {% if score %}
+    <div class="circle" data-score="{{ score }}">
+        <span>{{ score }}%</span>
     </div>
+
+    <h3>Matched Skills</h3>
+    <ul>
+        {% for s in matched %}
+        <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Missing Skills</h3>
+    <ul>
+        {% for s in missing %}
+        <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
     {% endif %}
+</div>
+
+<!-- Chatbot -->
+<div class="chatbox">
+    <input type="text" id="chatInput" placeholder="Ask me about resume...">
+    <button onclick="sendMessage()">Send</button>
+    <div id="chatReply"></div>
 </div>
 
 </body>
