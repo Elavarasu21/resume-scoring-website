@@ -1,55 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>AI Resume Analyzer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='resume.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
+<div class="background"></div>
+
 <div class="container">
-    <h1>AI Resume Analyzer</h1>
+    <h1 class="title">AI Resume Analyzer</h1>
+    <p class="subtitle">Smart Resume & Job Match System</p>
 
-    <form method="POST" enctype="multipart/form-data">
-        <label>Upload Resume (PDF)</label>
-        <input type="file" name="resume_file">
+    <form method="POST" enctype="multipart/form-data" class="form-box">
 
-        <label>Or Paste Resume</label>
-        <textarea name="resume"></textarea>
+        <label class="upload-label">Upload Resume (PDF)</label>
+        <input type="file" name="resume_file" class="file-input">
+
+        <div class="divider">OR</div>
+
+        <label>Paste Resume Text</label>
+        <textarea name="resume" placeholder="Paste resume content here..."></textarea>
 
         <label>Paste Job Description</label>
-        <textarea name="job_desc" required></textarea>
+        <textarea name="job_desc" placeholder="Paste job description here..." required></textarea>
 
-        <button type="submit">Analyze</button>
+        <button type="submit" class="glow-button">Analyze Resume</button>
     </form>
 
     {% if score %}
-    <div class="circle" data-score="{{ score }}">
-        <span>{{ score }}%</span>
+    <div class="result-section">
+
+        <div class="score-circle" data-score="{{ score }}">
+            <div class="circle-inner">
+                <span>{{ score }}%</span>
+                <small>Match Score</small>
+            </div>
+        </div>
+
+        <div class="skills-box">
+            <div class="skills-column">
+                <h3>✅ Matched Skills</h3>
+                <ul>
+                    {% for s in matched %}
+                    <li>{{ s }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="skills-column">
+                <h3>❌ Missing Skills</h3>
+                <ul>
+                    {% for s in missing %}
+                    <li>{{ s }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="suggestions">
+            <h3>💡 Suggestions to Improve</h3>
+            <p>Add the missing skills above and include more project details and measurable achievements.</p>
+        </div>
+
     </div>
-
-    <h3>Matched Skills</h3>
-    <ul>
-        {% for s in matched %}
-        <li>{{ s }}</li>
-        {% endfor %}
-    </ul>
-
-    <h3>Missing Skills</h3>
-    <ul>
-        {% for s in missing %}
-        <li>{{ s }}</li>
-        {% endfor %}
-    </ul>
     {% endif %}
 </div>
 
 <!-- Chatbot -->
 <div class="chatbox">
-    <input type="text" id="chatInput" placeholder="Ask me about resume...">
+    <div class="chat-header">AI Assistant</div>
+    <div id="chatReply" class="chat-reply">Hello! Ask me how to improve your resume.</div>
+    <input type="text" id="chatInput" placeholder="Type a question...">
     <button onclick="sendMessage()">Send</button>
-    <div id="chatReply"></div>
 </div>
 
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
