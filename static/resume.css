@@ -184,11 +184,39 @@ textarea:focus {
     border-radius: 10px;
 }
 
-/* Chatbot */
-.chatbox {
+/* Improved Resume Box */
+.improved-box {
+    width: 100%;
+    height: 150px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* 🤖 Robot Assistant */
+.robot-icon {
     position: fixed;
-    bottom: 15px;
-    right: 15px;
+    bottom: 20px;
+    left: 20px;
+    font-size: 42px;
+    cursor: pointer;
+    animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Chatbox (Hidden by default) */
+.chatbox {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
     width: 260px;
     background: #111;
     border-radius: 10px;
@@ -222,6 +250,15 @@ textarea:focus {
     color: white;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 10px;
+    font-size: 14px;
+    color: #aaa;
 }
 
 /* Dashboard Cards */
