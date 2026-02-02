@@ -2,3 +2,5 @@ flask
 scikit-learn
 gunicorn
 pdfplumber
+numpy
+scipy
