@@ -1,4 +1,4 @@
-// ================= CHATBOT =================
+// ================= CHATBOT MESSAGE FUNCTION =================
 function sendMessage() {
     const input = document.getElementById("chatInput");
     const replyBox = document.getElementById("chatReply");
@@ -24,6 +24,16 @@ function sendMessage() {
     });
 
     input.value = "";
+}
+
+// ================= TOGGLE CHATBOX (ROBOT BUTTON) =================
+function toggleChat() {
+    const chatbox = document.getElementById("chatbox");
+    if (chatbox.style.display === "block") {
+        chatbox.style.display = "none";
+    } else {
+        chatbox.style.display = "block";
+    }
 }
 
 // ================= SCORE CIRCLE ANIMATION =================
